@@ -1,0 +1,18 @@
+13:28:49 **** Incremental Build of configuration Default for project esp8266_tcpclient ****
+make all 
+make[1]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_NONOS_SDK-2.2.0_tcpclient/app'
+make[2]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_NONOS_SDK-2.2.0_tcpclient/app/user'
+make[2]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_NONOS_SDK-2.2.0_tcpclient/app/user'
+make[2]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_NONOS_SDK-2.2.0_tcpclient/app/driver'
+make[2]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_NONOS_SDK-2.2.0_tcpclient/app/driver'
+
+!!!
+No boot needed.
+Generate eagle.flash.bin and eagle.irom0text.bin successully in folder bin.
+eagle.flash.bin-------->0x00000
+eagle.irom0text.bin---->0x10000
+!!!
+make[1]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_NONOS_SDK-2.2.0_tcpclient/app'
+
+13:28:53 Build Finished (took 3s.615ms)
+

@@ -1,0 +1,125 @@
+10:11:54 **** Clean-only build of configuration Default for project PA1 ****
+make clean 
+/usr/bin/make -C esp8266-rtos-sdk clean;  /usr/bin/make -C mqtt clean;  /usr/bin/make -C ota clean;  /usr/bin/make -C platforms clean;  /usr/bin/make -C user clean;
+make[1]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk'
+/usr/bin/make -C driver_lib clean;  /usr/bin/make -C third_party clean;
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk/driver_lib'
+/usr/bin/make -C user clean;
+make[3]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk/driver_lib'
+make[3]: *** user: No such file or directory.  Stop.
+make[3]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk/driver_lib'
+../Makefile:328: recipe for target 'clean' failed
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk/driver_lib'
+make[2]: *** [clean] Error 2
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk/third_party'
+make[2]: *** No rule to make target 'clean'.  Stop.
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk/third_party'
+Makefile:328: recipe for target 'clean' failed
+make[1]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/esp8266-rtos-sdk'
+make[1]: *** [clean] Error 2
+make[1]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/mqtt'
+rm -f -r .output//
+make[1]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/mqtt'
+make[1]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/ota'
+rm -f -r .output//
+make[1]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/ota'
+make[1]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms'
+/usr/bin/make -C aliyun clean;
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun'
+/usr/bin/make -C IoT-SDK_V2.0 clean;  /usr/bin/make -C platform clean;
+make[3]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0'
+/usr/bin/make -C src clean;
+make[4]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src'
+/usr/bin/make -C coap clean;  /usr/bin/make -C guider clean;  /usr/bin/make -C mqtt clean;  /usr/bin/make -C ota clean;  /usr/bin/make -C packages clean;  /usr/bin/make -C sdk-impl clean;  /usr/bin/make -C security clean;  /usr/bin/make -C shadow clean;  /usr/bin/make -C system clean;  /usr/bin/make -C utils clean;
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/coap'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/coap'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/guider'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/guider'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/mqtt'
+/usr/bin/make -C MQTTPacket clean;
+make[6]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/mqtt/MQTTPacket'
+rm -f -r .output//
+make[6]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/mqtt/MQTTPacket'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/mqtt'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/ota'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/ota'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/packages'
+/usr/bin/make -C LITE-log clean;  /usr/bin/make -C LITE-utils clean;
+make[6]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/packages/LITE-log'
+rm -f -r .output//
+make[6]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/packages/LITE-log'
+make[6]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/packages/LITE-utils'
+rm -f -r .output//
+make[6]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/packages/LITE-utils'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/packages'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/sdk-impl'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/sdk-impl'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/security'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/security'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/shadow'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/shadow'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/system'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/system'
+make[5]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/utils'
+/usr/bin/make -C digest clean;  /usr/bin/make -C misc clean;
+make[6]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/utils/digest'
+rm -f -r .output//
+make[6]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/utils/digest'
+make[6]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/utils/misc'
+rm -f -r .output//
+make[6]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/utils/misc'
+rm -f -r .output//
+make[5]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src/utils'
+rm -f -r .output//
+make[4]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0/src'
+rm -f -r .output//
+make[3]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/IoT-SDK_V2.0'
+make[3]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/platform'
+/usr/bin/make -C src clean;
+make[4]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/platform/src'
+rm -f -r .output//
+make[4]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/platform/src'
+rm -f -r .output//
+make[3]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun/platform'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms/aliyun'
+rm -f -r .output//
+make[1]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/platforms'
+make[1]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user'
+/usr/bin/make -C arch clean;  /usr/bin/make -C dev clean;  /usr/bin/make -C driver clean;  /usr/bin/make -C http clean;  /usr/bin/make -C mqtt clean;  /usr/bin/make -C psm clean;  /usr/bin/make -C uart clean;
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/arch'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/arch'
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/dev'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/dev'
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/driver'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/driver'
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/http'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/http'
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/mqtt'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/mqtt'
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/psm'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/psm'
+make[2]: Entering directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/uart'
+rm -f -r .output//
+make[2]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user/uart'
+rm -f -r .output//
+make[1]: Leaving directory '/cygdrive/c/Users/Administrator/Desktop/sl-master/user'
+rm -f -r .output//
+
+10:11:59 Build Finished (took 5s.200ms)
+

@@ -1,0 +1,21 @@
+14:21:57 **** Clean-only build of configuration Default for project esp8266_demo ****
+make clean 
+/usr/bin/make -C app clean;  /usr/bin/make -C third_party clean;
+make[1]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/app'
+/usr/bin/make -C user clean;  /usr/bin/make -C driver clean;
+make[2]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/app/user'
+make[2]: *** No rule to make target 'clean'.  Stop.
+make[2]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/app/user'
+make[2]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/app/driver'
+rm -f -r .output/eagle/debug
+make[2]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/app/driver'
+rm -f -r .output/eagle/debug
+make[1]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/app'
+make[1]: *** No rule to make target 'clean'.  Stop.
+make[1]: Entering directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/third_party'
+make[1]: Leaving directory '/cygdrive/e/Micheal/eclipse/ESP8266_RTOS_SDK-2.0.0/ESP8266_RTOS_SDK-2.0.0/third_party'
+make: *** [clean] Error 2
+Makefile:328: recipe for target 'clean' failed
+
+14:21:57 Build Finished (took 817ms)
+

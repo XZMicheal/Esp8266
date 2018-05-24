@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <appSettings>
+        <add key="eclipse_path" value="E:\BaiduNetdiskDownload\Cygwin_Eclipse_IDE\eclipse\eclipse.exe" />
+        <add key="cygwin_path" value="E:\BaiduNetdiskDownload\Cygwin_Eclipse_IDE\cygwin" />
+        <add key="hide" value="1" />
+    </appSettings>
+</configuration>

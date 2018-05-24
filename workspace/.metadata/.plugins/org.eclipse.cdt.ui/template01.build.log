@@ -1,0 +1,25 @@
+18:07:46 **** Incremental Build of configuration Default for project template01 ****
+make all 
+make[1]: Entering directory '/cygdrive/e/Micheal/eclipse/esp8266/template/app'
+make[2]: Entering directory '/cygdrive/e/Micheal/eclipse/esp8266/template/app/user'
+DEPEND: xtensa-lx106-elf-gcc -M -Os -g -Wpointer-arith -Wundef -Werror -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -ffunction-sections -fdata-sections -fno-builtin-printf -fno-jump-tables -DICACHE_FLASH -I include -I ./ -I ../include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/extra_include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/driver_lib/include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/lwip -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/lwip/ipv4 -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/lwip/ipv6 -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/nopoll -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/spiffs -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/ssl -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/json -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/openssl -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/mqtt user_main.c
+xtensa-lx106-elf-gcc -Os -g -Wpointer-arith -Wundef -Werror -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -ffunction-sections -fdata-sections -fno-builtin-printf -fno-jump-tables  -DICACHE_FLASH   -I include -I ./ -I ../include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/extra_include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/driver_lib/include -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/lwip -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/lwip/ipv4 -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/lwip/ipv6 -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/nopoll -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/spiffs -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/ssl -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/json -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/openssl -I /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/mqtt  -o .output/eagle/debug/obj/user_main.o -c user_main.c
+xtensa-lx106-elf-ar ru .output/eagle/debug/lib/libuser.a .output/eagle/debug/obj/user_main.o 
+make[2]: Leaving directory '/cygdrive/e/Micheal/eclipse/esp8266/template/app/user'
+make[2]: Entering directory '/cygdrive/e/Micheal/eclipse/esp8266/template/app/driver'
+make[2]: Leaving directory '/cygdrive/e/Micheal/eclipse/esp8266/template/app/driver'
+xtensa-lx106-elf-gcc  -L/cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/lib -Wl,--gc-sections -nostdlib -T/cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/ld/eagle.app.v6.ld -Wl,--no-check-sections -u call_user_start -Wl,-static -Wl,--start-group -lcirom -lcrypto -lespconn -lespnow -lfreertos -lgcc -lhal -ljson -llwip -lmain -lmirom -lnet80211 -lnopoll -lphy -lpp -lpwm -lsmartconfig -lspiffs -lssl -lwpa -lwps user/.output/eagle/debug/lib/libuser.a driver/.output/eagle/debug/lib/libdriver.a -Wl,--end-group -o .output/eagle/debug/image/eagle.app.v6.out 
+
+!!!
+SDK_PATH: /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0
+BIN_PATH: /cygdrive/e/Micheal/eclipse/esp8266/bin
+
+No boot needed.
+Generate eagle.flash.bin and eagle.irom0text.bin successully in BIN_PATH
+eagle.flash.bin-------->0x00000
+eagle.irom0text.bin---->0x20000
+!!!
+make[1]: Leaving directory '/cygdrive/e/Micheal/eclipse/esp8266/template/app'
+
+18:07:56 Build Finished (took 9s.694ms)
+

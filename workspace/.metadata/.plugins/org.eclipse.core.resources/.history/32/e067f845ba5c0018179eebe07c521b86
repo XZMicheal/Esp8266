@@ -1,0 +1,404 @@
+/*
+ * ESPRESSIF MIT License
+ *
+ * Copyright (c) 2015 <ESPRESSIF SYSTEMS (SHANGHAI) PTE LTD>
+ *
+ * Permission is hereby granted for use on ESPRESSIF SYSTEMS ESP8266 only, in which case,
+ * it is free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished
+ * to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+
+#include "esp_common.h"
+#include "arch/arch_os.h"
+#include "dummy.h"
+#include "sl_uart.h"
+#include "driver/uart.h"
+#include "motor.h"
+#include "bat.h"
+#include "key.h"
+#include "power_switch.h"
+#include "lock_contral.h"
+#include "storage.h"
+#include "aliIOT.h"
+#include "slu_misc.h"
+#include "sl_offline.h"
+
+static os_semaphore_t* _net_connected_sem = NULL;
+static int _net_connected_once = 0;
+int init_net_connected_sem()
+{
+	int r;
+	
+	r = arch_os_semaphore_create(&_net_connected_sem);
+	
+	if(STATE_OK != r){
+		os_printf("ERROR: net_connected_sem create error %d\r\n", r);
+	}else{
+		r = arch_os_semaphore_get(_net_connected_sem, OS_NO_WAIT);
+		if(STATE_OK != r){
+			os_printf("ERROR: net_connected_sem init get error %d\r\n", r);
+		}
+	}
+	return r;
+}
+
+int net_connected()
+{
+	int r = STATE_OK;
+	
+	if(_net_connected_sem == NULL){
+		os_printf("ERRRO: _net_connected_sem Not init. \r\n");
+		return STATE_ERROR;
+	}
+	
+	if(_net_connected_once == 0){
+		_net_connected_once = 1;
+		r = arch_os_semaphore_put(_net_connected_sem);
+		if(STATE_OK != r)
+			os_printf("ERROR: _net_connected_sem put error %d \r\n", r);
+	}
+	return r;
+}
+
+int wait_net_connected()
+{
+	int r = STATE_OK;
+
+	if(!_net_connected_sem){
+		os_printf("ERROR: _net_connected_sem Not init. \r\n");
+		return STATE_ERROR;
+	}
+	
+	r = arch_os_semaphore_get(_net_connected_sem, OS_WAIT_FOREVER);
+	
+	if(STATE_OK != r){
+		os_printf("ERROR: get_net_connected_sem error \r\n");
+	}
+
+	return r;
+}
+
+/* STACK_SIZE (BYTE) APP_THREAD_STACK_SIZE*4 */
+#define APP_THREAD_STACK_SIZE	1024
+static os_thread_vt* _app_thread_hdl = NULL;
+int app_thread(void* arg)
+{
+	//(void)arg;
+	conn_info_t* conn_info = (conn_info_t*)arg;
+	int r;
+
+	#if 1
+	os_printf("debug: app_thread conn_info &[%p]\r\n", conn_info);
+	if(conn_info == NULL){
+		r = STATE_ERROR;
+		goto exit;
+	}
+	#endif
+	r = wait_net_connected();	if(STATE_OK != r)	goto exit;
+	
+#if 1
+	/* SNTP */
+	sntpfn();
+
+	/* ALI_IOT_MQTT */
+	#if 1
+	os_printf("debug: [app_thread] dev_name[%s], dev_secret[%s], pro_key[%s]\r\n", conn_info->device_name, conn_info->device_secret, conn_info->product_key);
+	#endif
+	
+	r = ali_IOT_mqtt_init(conn_info->device_name, conn_info->device_secret, conn_info->product_key);
+	if(STATE_OK != r)	goto exit;
+	os_printf("SUCC: ALiIOT MQTT module. \r\n");
+
+	/* !!! BLOCK */
+	ali_IOT_mqtt_first_pub_block();
+
+	slu_send_mqtt_conn_ack(0);
+	
+#if 1
+	arch_os_tick_sleep(1000);
+	r = bat_put_wait_sem();
+	if(STATE_OK != r){
+		os_printf("ERROR: bat wait sem put error. \r\n");
+	}
+#endif
+
+#endif
+
+#if 1
+	/* Net Func Test */
+#endif
+
+exit:
+	if(STATE_OK != r){
+		os_printf("ERROR: app_thread error reset after 5s ... \r\n");
+		/* 网络功能错误是否应该修改为初始化不成功 ？？*/
+		arch_os_tick_sleep(5000);
+		system_restart();
+	}
+	os_printf("app_thread deleted.free heap size %d\r\n", system_get_free_heap_size());	
+	arch_os_thread_delete(_app_thread_hdl);
+}
+
+int init_app_thread(conn_info_t* conn_info)
+{
+	int r;
+	/* sizeof( portSTACK_TYPE ) = 4 Byte
+	*  APP_THREAD_STACK_SIZE*sizeof( portSTACK_TYPE )
+	*  eg 512*4 
+	*	  => 1024	WORD in freertos
+	*     => 1024*2	BYTE STATCK_SIZE
+	**/
+	r = arch_os_thread_create(&_app_thread_hdl, "sl_app", app_thread, APP_THREAD_STACK_SIZE*sizeof( portSTACK_TYPE ), conn_info);
+	if(STATE_OK != r)
+		os_printf("app_thread init error %d\r\n", r);
+	else
+		os_printf("app_thread init succ \r\n");
+
+	return r;
+}
+
+/******************************************************************************
+ * FunctionName : user_rf_cal_sector_set
+ * Description  : SDK just reversed 4 sectors, used for rf init data and paramters.
+ *                We add this function to force users to set rf cal sector, since
+ *                we don't know which sector is free in user's application.
+ *                sector map for last several sectors : ABCCC
+ *                A : rf cal
+ *                B : rf init data
+ *                C : sdk parameters
+ * Parameters   : none
+ * Returns      : rf cal sector
+*******************************************************************************/
+uint32 user_rf_cal_sector_set(void)
+{
+    flash_size_map size_map = system_get_flash_size_map();
+    uint32 rf_cal_sec = 0;
+
+    switch (size_map) {
+        case FLASH_SIZE_4M_MAP_256_256:
+            rf_cal_sec = 128 - 5;
+            break;
+
+        case FLASH_SIZE_8M_MAP_512_512:
+            rf_cal_sec = 256 - 5;
+            break;
+
+        case FLASH_SIZE_16M_MAP_512_512:
+        case FLASH_SIZE_16M_MAP_1024_1024:
+            rf_cal_sec = 512 - 5;
+            break;
+
+        case FLASH_SIZE_32M_MAP_512_512:
+        case FLASH_SIZE_32M_MAP_1024_1024:
+            rf_cal_sec = 1024 - 5;
+            break;
+        case FLASH_SIZE_64M_MAP_1024_1024:
+            rf_cal_sec = 2048 - 5;
+            break;
+        case FLASH_SIZE_128M_MAP_1024_1024:
+            rf_cal_sec = 4096 - 5;
+            break;
+        default:
+            rf_cal_sec = 0;
+            break;
+    }
+
+    return rf_cal_sec;
+}
+
+void wifi_event_handler_cb(System_Event_t *event)
+{
+    if (event == NULL) {
+        return;
+    }
+
+    switch (event->event_id) {
+        case EVENT_STAMODE_GOT_IP:		
+			os_printf("sta got IP\r\n");
+			net_connected();
+			ali_iot_set_ip_flag(ALI_IOT_GET_IP);
+			slu_send_wifi_conn_ack(WIFI_CONN_SUCC);
+            break;
+
+        case EVENT_STAMODE_CONNECTED:
+            os_printf("sta connected\n");		
+            break;
+
+        case EVENT_STAMODE_DISCONNECTED:
+            wifi_station_connect();
+			ali_iot_set_ip_flag(ALI_IOT_LOSE_IP);
+            break;
+
+        default:
+            break;
+    }
+}
+
+static void _wifi_connect(uint8_t *ssid, uint8_t *password)
+{
+    wifi_set_opmode(STATION_MODE);
+    struct station_config config;
+    bzero(&config, sizeof(struct station_config));
+	sprintf(config.ssid, ssid);
+	sprintf(config.password, password);
+	wifi_station_set_config(&config);
+    wifi_set_event_handler_cb(wifi_event_handler_cb); 
+    wifi_station_connect();
+}
+
+
+/******************************************************************************
+ * FunctionName : user_init
+ * Description  : entry of user application, init user function here
+ * Parameters   : none
+ * Returns      : none
+*******************************************************************************/
+void user_init(void)
+{
+	int r = STATE_OK;
+	int is_init = 0;
+	conn_info_t* conn_info = NULL;
+	key_function k1_s_cb = NULL, k1_l_cb = NULL, k2_s_cb = NULL, k2_l_cb = NULL;
+	
+#if 0
+	/* Power Switch */
+	r = power_switch_init(ps_down_cb_test, ps_on_cb_test);
+	if(STATE_OK != r)	goto exit;
+	os_printf("SUCC: PowerSwitch Moudle. \r\n");
+#endif
+
+#if 1
+	/* UART	*/
+	r = uartRecvthreadStart();
+	if(STATE_OK != r)	goto exit;
+	os_printf("SUCC: UART module \r\n");
+	uart_init_new();
+#endif
+
+#if ENABLE_UART_1
+	UART_SetPrintPort(UART1);	
+#else
+	UART_SetPrintPort(UART0);
+#endif
+
+#if 0
+	yee_logo();
+#endif
+
+#if 1
+	r = conn_info_init(&conn_info);
+	if(STATE_OK != r)	goto exit;
+	os_printf("SUCC: Conn Info. &[%p]\r\n", conn_info);
+#endif
+
+#if 1
+	os_printf("Hello Minnow ! SDK version:%s %d\r\nChipID 0x%x\r\n", \
+		system_get_sdk_version(), system_get_free_heap_size(), system_get_chip_id());	
+#endif
+
+#if 1
+	/* SL_Storage */
+	r = sls_init();
+	if(STATE_OK != r)	goto exit;
+	os_printf("SUCC: Storage init. \r\n");
+#endif
+
+#if 1
+	/* Offline or Online */
+	is_init = dev_is_init();
+	//is_init = DEV_IS_NOT_INIT;
+	#if 1
+	if(DEV_IS_NOT_INIT == is_init){
+		/* SL_OFFLINE */
+		r = slo_init();
+		if(STATE_OK != r)	goto exit;
+		os_printf("SUCC: SL Offline module init. \r\n");	
+		k1_s_cb = sl_offline_key_2_short_pressed;
+		k1_l_cb = sl_offline_key_2_long_pressed;
+		k2_s_cb = sl_offline_key_1_short_pressed;
+		k2_l_cb = sl_offline_key_1_long_pressed;
+	}
+	#endif
+#endif
+
+#if 1
+	/* BUTTON */
+	r = button_init(k1_s_cb, k1_l_cb, k2_s_cb, k2_l_cb);
+	if(STATE_OK != r)	goto exit;
+	os_printf("SUCC: Button module \r\n");
+#endif
+
+#if 1
+	/* Motor */
+	r = motor_init(open_lock_motor_run_finish_cb, NULL);
+	if(STATE_OK != r) 	goto exit;
+	os_printf("SUCC: Motor module \r\n");	
+#endif
+
+#if 1
+	/* Battery */
+	r = bat_init(bat_cb_get_first_value, bat_cb_low_power, bat_cb_level_change);
+	if(STATE_OK != r) goto exit;
+	os_printf("SUCC: Battery module \r\n");
+#endif
+
+	/* OTA */
+
+#if 1
+	/* HardWare Func Test */
+#endif
+	
+#if 1
+	/* Net funcs */
+	r = init_net_connected_sem();
+	if(STATE_OK != r)	goto exit;
+
+	r = init_app_thread(conn_info);
+	if(STATE_OK != r)	goto exit;
+
+	#if 1
+	/* Wi-Fi conn */
+	if(DEV_WIFI_CAN_NOT_CONN == dev_is_could_conn()){
+		os_printf("NOTE: device not store wifi conn info.\r\n");
+		os_printf("NOTE: Wait for wifi conn info.\r\n");		
+		conn_info_block(conn_info);
+	}else{
+		conn_info_read(conn_info);
+	}
+	#endif
+	
+	os_printf("ssid [%s](%d), password [%s](%d)\r\n", conn_info->ssid, conn_info->ssid_len, conn_info->password, conn_info->password_len);
+	#if 1
+	os_printf("debug: dev_name[%s](%d), dev_sercet[%s](%d), pro_key[%s](%d)\r\n", conn_info->device_name, conn_info->device_name_len, conn_info->device_secret, conn_info->device_secret_len, conn_info->product_key, conn_info->product_key_len);
+	#endif
+
+	#if 0
+	conn_change_memory_for_TEST();
+	#endif
+	
+	_wifi_connect(conn_info->ssid, conn_info->password);
+	
+#endif
+
+exit:
+	if(STATE_OK != r){
+		os_printf("user_init error reset after 5s ... \r\n");
+		arch_os_tick_sleep(5000);
+		system_restart();
+	}	
+}
+

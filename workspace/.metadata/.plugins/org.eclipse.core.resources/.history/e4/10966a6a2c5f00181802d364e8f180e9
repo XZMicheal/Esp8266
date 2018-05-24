@@ -1,0 +1,58 @@
+/*
+ * ESPRSSIF MIT License
+ *
+ * Copyright (c) 2015 <ESPRESSIF SYSTEMS (SHANGHAI) PTE LTD>
+ *
+ * Permission is hereby granted for use on ESPRESSIF SYSTEMS ESP8266 only, in which case,
+ * it is free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished
+ * to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+
+#ifndef __USER_CONFIG_H__
+#define __USER_CONFIG_H__
+
+#ifdef __cplusplus
+extern "C"{
+#endif	//__cplusplus;
+#include "gpio.h"
+#include "uart.h"
+#include "spi_flash.h"
+
+#define APP_Version	"test v0.0.1"
+
+
+/*
+ * flash 区域划分
+ * 参考https://blog.csdn.net/k7arm/article/details/51812021
+ * 512kb(256KB+256KB) blank.bin-64kb,irom.bin=irom0_0_reg,
+ * 1024kb(256KB+768KB)
+ *	2048kb(256KB+1792KB)
+ * 4096kb(256KB+2816KB)
+ */
+//data1
+#define FLASH_DATA1_START_ADDR 0x10000
+#define FLAHS_DATA1_END_ADDR	0x3C000
+//data2
+#define FLASH_DATA2_START_ADDR	0xAB000
+#define FLASH_DATA2_END_ADDR	0xFC000
+
+#ifdef __cplusplus
+}
+#endif //__cplusplus
+
+#endif
+

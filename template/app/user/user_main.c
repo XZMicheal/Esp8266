@@ -98,12 +98,47 @@ void led_task(void* argument)
 /*测试Flash 的读写 */
 void flash_task(void* argument)
 {
+	SpiFlashOpResult result;
+	int i_buf[6] = {1,2,3,4,5};
+	int i_buf2[6] = {6,7,8,9,0,1};
+	int o_buf[6] = {0};
 	//初始化flash
 	uint32 id =  spi_flash_get_id();
 	os_printf("flash id %d\r\n",id);
 	//写入数据
+	spi_flash_erase_sector(FLASH_DATA1_START_ADDR/0x1000);
+	result = spi_flash_write(FLASH_DATA1_START_ADDR,i_buf,sizeof(int)*5);
+	if (result != SPI_FLASH_RESULT_OK){
+		os_printf("FLAHS write Error = %d",result);
+	}
 	//读出数据
-	//打印数据
+	result = spi_flash_read(FLASH_DATA1_START_ADDR,o_buf,sizeof(int)*5);
+	if (result != SPI_FLASH_RESULT_OK){
+			os_printf("FLAHS write Error = %d",result);
+	}
+	else
+	{
+		//打印数据
+		os_printf("flash read buf:%d,%d,%d,%d,%d\r\n",o_buf[0],o_buf[1],o_buf[2],o_buf[3],o_buf[4]);
+	}
+	//测试擦除
+
+	//写入数据
+	spi_flash_erase_sector(FLASH_DATA1_START_ADDR/0x1000);
+	result = spi_flash_write(FLASH_DATA1_START_ADDR,i_buf2,sizeof(int)*5);
+	if (result != SPI_FLASH_RESULT_OK){
+		os_printf("FLAHS write Error = %d",result);
+	}
+	//读出数据
+	result = spi_flash_read(FLASH_DATA1_START_ADDR,o_buf,sizeof(int)*5);
+	if (result != SPI_FLASH_RESULT_OK){
+			os_printf("FLAHS write Error = %d",result);
+	}
+	else
+	{
+		//打印数据
+		os_printf("flash read buf:%d,%d,%d,%d,%d\r\n",o_buf[0],o_buf[1],o_buf[2],o_buf[3],o_buf[4]);
+	}
 	//停止任务
 	vTaskDelete(NULL);
 }

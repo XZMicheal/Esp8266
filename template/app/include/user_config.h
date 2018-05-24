@@ -28,6 +28,9 @@
 #ifdef __cplusplus
 extern "C"{
 #endif	//__cplusplus;
+
+#include "flash_config.h"
+
 #include "gpio.h"
 #include "uart.h"
 #include "spi_flash.h"

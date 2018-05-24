@@ -77,7 +77,7 @@
  /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif/smartconfig.h \
  /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif/spi_flash.h \
  /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif/pwm.h \
- ../include/user_config.h ../include/gpio.h \
+ ../include/user_config.h ../include/flash_config.h ../include/gpio.h \
  /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif/esp8266/gpio_register.h \
  ../include/uart.h \
  /cygdrive/e/Micheal/eclipse/esp8266/ESP8266_RTOS_SDK-2.0.0/include/espressif/spi_flash.h
